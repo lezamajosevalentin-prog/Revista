@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logística Verde — Eco-Logística Tuxtepec</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-oscuro: #1a3a2a;
+    --verde-medio: #2d6a4f;
+    --verde-claro: #52b788;
+    --verde-menta: #b7e4c7;
+    --crema: #f5f0e8;
+    --crema-oscuro: #e8e0d0;
+    --tierra: #8b5e3c;
+    --carbon: #1c1c1c;
+    --gris-texto: #3a3a3a;
+    --acento-oro: #c9a84c;
+    --blanco: #fefefe;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--carbon);
+    color: var(--gris-texto);
+    overflow-x: hidden;
+  }
+
+  /* ── BARRA DE PROGRESO ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--verde-claro), var(--acento-oro));
+    z-index: 9999; width: 0%; transition: width 0.1s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 3px; left: 0; right: 0; z-index: 100;
+    background: rgba(26,58,42,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(82,183,136,0.2);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    color: var(--verde-claro); font-size: 0.75rem; letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--crema); text-decoration: none; font-size: 0.78rem;
+    letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--verde-claro); }
+  .nav-vol {
+    font-family: 'DM Mono', monospace; color: var(--acento-oro);
+    font-size: 0.7rem; letter-spacing: 0.1em;
+  }
+
+  /* ── PÁGINAS ── */
+  .page {
+    min-height: 100vh;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .page.visible { opacity: 1; transform: translateY(0); }
+
+  /* ════════════════════════════
+     PÁGINA 1 — PORTADA
+  ════════════════════════════ */
+  #portada {
+    background: var(--verde-oscuro);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    padding-top: 55px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .portada-fondo-patron {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(82,183,136,0.06) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(82,183,136,0.06) 60px);
+  }
+
+  .portada-izq {
+    padding: 4rem 3rem 4rem 4rem;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; z-index: 2;
+  }
+
+  .portada-meta {
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .portada-meta-line {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.18em; color: var(--verde-claro); text-transform: uppercase;
+  }
+  .portada-meta-sep {
+    width: 40px; height: 1px; background: var(--acento-oro); margin: 0.6rem 0;
+  }
+
+  .portada-titulo-wrap { margin: auto 0; }
+  .portada-kicker {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.25em; color: var(--acento-oro); text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .portada-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 900; line-height: 0.92;
+    color: var(--crema);
+    letter-spacing: -0.02em;
+  }
+  .portada-titulo .verde { color: var(--verde-claro); }
+  .portada-subtitulo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.05rem; line-height: 1.65;
+    color: rgba(245,240,232,0.75);
+    margin-top: 1.8rem; max-width: 420px;
+    font-style: italic;
+  }
+
+  .portada-autor-block {
+    border-top: 1px solid rgba(82,183,136,0.25);
+    padding-top: 1.5rem;
+  }
+  .portada-autor-label {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.2em; color: var(--verde-claro); text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .portada-autor-nombre {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    color: var(--crema); font-style: italic;
+  }
+  .portada-autor-cargo {
+    font-size: 0.78rem; color: rgba(245,240,232,0.55); margin-top: 0.2rem;
+  }
+
+  .portada-der {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+  }
+
+  .portada-imagen-principal {
+    flex: 1;
+    background:
+      linear-gradient(135deg, rgba(26,58,42,0.3) 0%, rgba(45,106,79,0.5) 100%),
+      url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80') center/cover no-repeat;
+    position: relative;
+    min-height: 60vh;
+  }
+  .portada-imagen-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 2rem;
+    background: linear-gradient(transparent, rgba(26,58,42,0.95));
+  }
+  .portada-nota-cover {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.88rem; color: var(--crema-oscuro); line-height: 1.6;
+    border-left: 3px solid var(--verde-claro); padding-left: 1rem;
+  }
+
+  .portada-strip {
+    background: var(--acento-oro); padding: 0.9rem 2rem;
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .portada-strip-texto {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--verde-oscuro);
+  }
+  .portada-strip-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--verde-oscuro); flex-shrink: 0;
+  }
+
+  /* ════════════════════════════
+     PÁGINA 2 — EDITORIAL
+  ════════════════════════════ */
+  #editorial {
+    background: var(--crema);
+    padding: 7rem 0 6rem;
+  }
+  .editorial-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 3rem;
+  }
+  .seccion-label {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--verde-medio); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .seccion-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--verde-medio); opacity: 0.3;
+  }
+  .editorial-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.2;
+    color: var(--verde-oscuro); margin-bottom: 0.5rem;
+  }
+  .editorial-subtitulo {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 1rem; color: var(--tierra); margin-bottom: 2.5rem;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 4.5rem; float: left; line-height: 0.8;
+    margin-right: 0.15em; margin-top: 0.1em;
+    color: var(--verde-medio);
+  }
+
+  .editorial-texto {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.02rem; line-height: 1.85; color: var(--gris-texto);
+    margin-bottom: 1.5rem; text-align: justify;
+  }
+
+  .pull-quote {
+    margin: 2.5rem 0; padding: 1.8rem 2.5rem;
+    border-left: 5px solid var(--verde-claro);
+    background: rgba(82,183,136,0.07);
+    border-radius: 0 8px 8px 0;
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 1.3rem; line-height: 1.6; color: var(--verde-oscuro);
+  }
+
+  /* ════════════════════════════
+     PÁGINA 3 — ANÁLISIS
+  ════════════════════════════ */
+  #analisis {
+    background: var(--verde-oscuro);
+    padding: 7rem 0 6rem;
+    position: relative; overflow: hidden;
+  }
+  #analisis::before {
+    content: 'LOGÍSTICA';
+    position: absolute; right: -2rem; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 10rem; color: rgba(255,255,255,0.03);
+    letter-spacing: 0.05em; pointer-events: none;
+  }
+  .analisis-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+    display: grid; grid-template-columns: 3fr 2fr; gap: 5rem;
+    align-items: start;
+  }
+  .analisis-label {
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--verde-claro); margin-bottom: 1rem;
+  }
+  .analisis-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.25;
+    color: var(--crema); margin-bottom: 0.8rem;
+  }
+  .analisis-subtitulo {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.95rem; color: var(--verde-claro); margin-bottom: 2rem; opacity: 0.8;
+  }
+  .analisis-texto {
+    font-size: 0.97rem; line-height: 1.85;
+    color: rgba(245,240,232,0.8); margin-bottom: 1.4rem;
+    text-align: justify;
+  }
+
+  .concepto-box {
+    background: rgba(82,183,136,0.12);
+    border: 1px solid rgba(82,183,136,0.25);
+    border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem;
+  }
+  .concepto-box h4 {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--verde-claro); margin-bottom: 0.8rem;
+  }
+  .concepto-box p {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.92rem; line-height: 1.7; color: var(--crema-oscuro);
+  }
+
+  .stat-card {
+    background: var(--acento-oro);
+    border-radius: 12px; padding: 2rem; margin-bottom: 1.2rem;
+    text-align: center;
+  }
+  .stat-numero {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 3.5rem; color: var(--verde-oscuro); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--verde-oscuro); margin-top: 0.5rem;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+
+  .termino-clave {
+    display: inline-block; background: rgba(82,183,136,0.2);
+    border: 1px solid rgba(82,183,136,0.4);
+    color: var(--verde-claro); padding: 0.15em 0.6em;
+    border-radius: 4px; font-family: 'DM Mono', monospace;
+    font-size: 0.85em; font-weight: 500;
+  }
+
+  /* ════════════════════════════
+     PÁGINA 4 — VOCES
+  ════════════════════════════ */
+  #voces {
+    background: var(--crema-oscuro);
+    padding: 7rem 0 6rem;
+  }
+  .voces-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+  }
+  .voces-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem;
+  }
+
+  .testimonio-card {
+    background: var(--blanco);
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  }
+  .testimonio-header {
+    background: var(--verde-medio); padding: 1.5rem 2rem;
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .testimonio-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--verde-oscuro);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.4rem;
+    color: var(--crema); flex-shrink: 0;
+  }
+  .testimonio-info h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.05rem;
+    color: var(--crema);
+  }
+  .testimonio-info span {
+    font-size: 0.78rem; color: var(--verde-menta); opacity: 0.9;
+  }
+  .testimonio-body { padding: 2rem; }
+  .testimonio-pregunta {
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--verde-medio); margin-bottom: 0.6rem; margin-top: 1.2rem;
+  }
+  .testimonio-pregunta:first-child { margin-top: 0; }
+  .testimonio-respuesta {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.93rem; line-height: 1.75; color: var(--gris-texto);
+    border-left: 3px solid var(--verde-claro); padding-left: 1rem;
+  }
+
+  .multimedia-card {
+    background: var(--verde-oscuro);
+    border-radius: 16px; padding: 2.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .multimedia-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem;
+    color: var(--crema);
+  }
+  .multimedia-item {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: rgba(82,183,136,0.1);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 10px; padding: 1.2rem;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .multimedia-item:hover { background: rgba(82,183,136,0.2); }
+  .multimedia-icono {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--verde-claro);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .multimedia-info h4 {
+    font-family: 'Source Sans 3', sans-serif; font-weight: 600;
+    font-size: 0.88rem; color: var(--crema);
+  }
+  .multimedia-info p {
+    font-size: 0.75rem; color: rgba(245,240,232,0.55); margin-top: 0.2rem;
+  }
+  .multimedia-badge {
+    margin-left: auto; background: var(--acento-oro);
+    color: var(--verde-oscuro); font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.3em 0.7em; border-radius: 4px; flex-shrink: 0;
+  }
+
+  /* ════════════════════════════
+     PÁGINA 5 — INFOGRAFÍA
+  ════════════════════════════ */
+  #infografia {
+    background: var(--carbon);
+    padding: 7rem 0 6rem;
+    position: relative; overflow: hidden;
+  }
+  .infografia-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(45,106,79,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .infografia-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+    position: relative; z-index: 1;
+  }
+
+  .infografia-titulo {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; color: var(--crema); text-align: center; margin-bottom: 0.6rem;
+  }
+  .infografia-sub {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.95rem; color: rgba(245,240,232,0.55);
+    text-align: center; margin-bottom: 4rem;
+  }
+
+  .comparativa {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 2rem;
+    align-items: center; margin-bottom: 4rem;
+  }
+  .comparativa-col {
+    border-radius: 16px; overflow: hidden;
+  }
+  .comparativa-header {
+    padding: 1.2rem 1.5rem; text-align: center;
+  }
+  .comparativa-header.lineal { background: rgba(139,94,60,0.9); }
+  .comparativa-header.inversa { background: var(--verde-medio); }
+  .comparativa-header h3 {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--crema);
+  }
+  .comparativa-steps { padding: 1.5rem; }
+  .comparativa-steps.lineal-bg { background: rgba(139,94,60,0.1); border: 1px solid rgba(139,94,60,0.2); border-top: none; border-radius: 0 0 16px 16px; }
+  .comparativa-steps.inversa-bg { background: rgba(45,106,79,0.15); border: 1px solid rgba(82,183,136,0.2); border-top: none; border-radius: 0 0 16px 16px; }
+
+  .step-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500;
+    flex-shrink: 0;
+  }
+  .step-num.lineal { background: rgba(139,94,60,0.5); color: var(--crema); }
+  .step-num.inversa { background: var(--verde-claro); color: var(--verde-oscuro); }
+  .step-texto { font-size: 0.85rem; color: rgba(245,240,232,0.8); line-height: 1.4; }
+  .step-icono { margin-left: auto; font-size: 1.1rem; }
+
+  .vs-divider {
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  }
+  .vs-badge {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--acento-oro);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 1rem; color: var(--verde-oscuro);
+    box-shadow: 0 0 30px rgba(201,168,76,0.3);
+  }
+  .vs-linea {
+    width: 1px; height: 60px; background: rgba(255,255,255,0.1);
+  }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 2rem; text-align: center;
+    transition: border-color 0.3s;
+  }
+  .stat-item:hover { border-color: rgba(82,183,136,0.4); }
+  .stat-item .numero {
+    font-family: 'Playfair Display', serif; font-weight: 900;
+    font-size: 2.8rem; color: var(--verde-claro); line-height: 1;
+  }
+  .stat-item .unidad {
+    font-family: 'DM Mono', monospace; font-size: 0.8rem;
+    color: var(--acento-oro); margin-left: 0.2em;
+  }
+  .stat-item .descripcion {
+    font-size: 0.82rem; color: rgba(245,240,232,0.6);
+    margin-top: 0.5rem; line-height: 1.5;
+  }
+
+  /* ════════════════════════════
+     PÁGINA 6 — PROPUESTA
+  ════════════════════════════ */
+  #propuesta {
+    background: var(--crema);
+    padding: 7rem 0 6rem;
+  }
+  .propuesta-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 3rem;
+    display: grid; grid-template-columns: 3fr 2fr; gap: 5rem;
+    align-items: start;
+  }
+
+  .propuesta-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700; color: var(--verde-oscuro);
+    line-height: 1.25; margin-bottom: 0.5rem;
+  }
+  .propuesta-badge {
+    display: inline-block;
+    background: var(--verde-medio); color: var(--crema);
+    font-family: 'DM Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.4em 1em; border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+  .propuesta-intro {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1rem; line-height: 1.8; color: var(--gris-texto);
+    margin-bottom: 2rem;
+  }
+
+  .accion-item {
+    display: flex; gap: 1.5rem; margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(45,106,79,0.12);
+  }
+  .accion-item:last-child { border-bottom: none; }
+  .accion-num-wrap {
+    flex-shrink: 0;
+  }
+  .accion-num {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--verde-medio);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700;
+    font-size: 1.3rem; color: var(--crema);
+  }
+  .accion-contenido h4 {
+    font-family: 'Source Sans 3', sans-serif; font-weight: 700;
+    font-size: 0.95rem; color: var(--verde-oscuro);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .accion-contenido p {
+    font-size: 0.93rem; line-height: 1.75; color: var(--gris-texto);
+  }
+
+  .sidebar-card {
+    background: var(--verde-oscuro); border-radius: 16px;
+    overflow: hidden; position: sticky; top: 80px;
+  }
+  .sidebar-card-header {
+    background: var(--acento-oro); padding: 1.5rem;
+  }
+  .sidebar-card-header h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.1rem;
+    color: var(--verde-oscuro);
+  }
+  .sidebar-card-body { padding: 1.5rem; }
+  .rubrica-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 1.2rem; padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .rubrica-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .rubrica-check {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--verde-claro);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; flex-shrink: 0; margin-top: 0.15rem;
+    color: var(--verde-oscuro);
+  }
+  .rubrica-texto {
+    font-size: 0.83rem; line-height: 1.5; color: rgba(245,240,232,0.8);
+  }
+  .rubrica-texto strong {
+    display: block; color: var(--crema); font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ════════════════════════════
+     PÁGINA 7 — REFERENCIAS
+  ════════════════════════════ */
+  #referencias {
+    background: var(--verde-oscuro);
+    padding: 6rem 0 8rem;
+  }
+  .referencias-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 3rem;
+  }
+  .ref-titulo {
+    font-family: 'Playfair Display', serif; font-size: 2rem;
+    font-weight: 700; color: var(--crema); margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(82,183,136,0.25);
+  }
+  .ref-item {
+    display: flex; gap: 1.5rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .ref-num {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    color: var(--verde-claro); flex-shrink: 0; padding-top: 0.15rem;
+  }
+  .ref-texto {
+    font-family: 'Libre Baskerville', serif; font-size: 0.9rem;
+    line-height: 1.7; color: rgba(245,240,232,0.75);
+  }
+  .ref-texto em { color: rgba(245,240,232,0.95); }
+  .ref-url {
+    color: var(--verde-claro); text-decoration: none; font-size: 0.85em;
+    word-break: break-all;
+  }
+  .ref-url:hover { text-decoration: underline; }
+
+  .pie-firma {
+    margin-top: 4rem; padding: 2.5rem;
+    background: rgba(82,183,136,0.08);
+    border: 1px solid rgba(82,183,136,0.2);
+    border-radius: 12px; text-align: center;
+  }
+  .pie-firma p {
+    font-family: 'Libre Baskerville', serif; font-style: italic;
+    font-size: 0.92rem; color: rgba(245,240,232,0.6); line-height: 1.7;
+  }
+  .pie-firma strong {
+    display: block; font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; color: var(--crema); font-style: normal;
+    margin-top: 0.8rem;
+  }
+
+  /* ────────── RESPONSIVE ────────── */
+  @media (max-width: 900px) {
+    #portada { grid-template-columns: 1fr; }
+    .portada-imagen-principal { min-height: 40vh; }
+    .analisis-inner, .propuesta-inner { grid-template-columns: 1fr; }
+    .voces-grid { grid-template-columns: 1fr; }
+    .comparativa { grid-template-columns: 1fr; }
+    .vs-divider { flex-direction: row; }
+    .vs-linea { width: 60px; height: 1px; }
+    .stats-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  /* ────── ANIMACIONES SCROLL ────── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ────── SEPARADOR DE SECCIÓN ────── */
+  .section-sep {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .section-sep-line { flex: 1; height: 1px; background: currentColor; opacity: 0.15; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Eco-Logística · Tuxtepec</span>
+  <ul class="nav-links">
+    <li><a href="#portada">Portada</a></li>
+    <li><a href="#editorial">Editorial</a></li>
+    <li><a href="#analisis">Análisis</a></li>
+    <li><a href="#voces">Voces</a></li>
+    <li><a href="#infografia">Infografía</a></li>
+    <li><a href="#propuesta">Propuesta</a></li>
+    <li><a href="#referencias">Referencias</a></li>
+  </ul>
+  <span class="nav-vol">Vol. 1 &mdash; Junio 2026</span>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 1 — PORTADA
+═══════════════════════════════════════ -->
+<section id="portada" class="page">
+  <div class="portada-fondo-patron"></div>
+
+  <div class="portada-izq">
+    <div class="portada-meta">
+      <span class="portada-meta-line">Revista Digital Estudiantil</span>
+      <span class="portada-meta-line">Técnico en Logística</span>
+      <span class="portada-meta-line">Progresiones 11 &amp; 12</span>
+      <div class="portada-meta-sep"></div>
+      <span class="portada-meta-line" style="color:var(--acento-oro)">Junio 2026 · Vol. 1</span>
+    </div>
+
+    <div class="portada-titulo-wrap">
+      <p class="portada-kicker">Análisis Crítico · Sustentabilidad · Comunidad</p>
+      <h1 class="portada-titulo">
+        LOGÍSTICA<br><span class="verde">VERDE</span>
+      </h1>
+      <p class="portada-subtitulo">
+        Rediseñando los flujos de consumo y residuos en San Juan Bautista Tuxtepec para construir una cadena de suministro que cuide a nuestra comunidad.
+      </p>
+    </div>
+
+    <div class="portada-autor-block">
+      <p class="portada-autor-label">Autora / Autor</p>
+      <p class="portada-autor-nombre">Lezama Rendón José Valentín</p>
+      <p class="portada-autor-cargo">Técnico en Logística · CBTis / CECyTE · Tuxtepec, Oaxaca</p>
+    </div>
+  </div>
+
+  <div class="portada-der">
+    <div class="portada-imagen-principal">
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.18;">
+        <svg width="320" height="320" viewBox="0 0 320 320" fill="none">
+          <circle cx="160" cy="160" r="140" stroke="#52b788" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <circle cx="160" cy="160" r="90" stroke="#52b788" stroke-width="1" opacity="0.5"/>
+          <circle cx="160" cy="160" r="40" stroke="#c9a84c" stroke-width="1.5"/>
+          <path d="M160 20 L160 300 M20 160 L300 160" stroke="#52b788" stroke-width="0.5" opacity="0.4"/>
+          <path d="M80 80 L240 240 M240 80 L80 240" stroke="#52b788" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="160" cy="160" r="8" fill="#c9a84c"/>
+          <circle cx="160" cy="70" r="5" fill="#52b788"/>
+          <circle cx="250" cy="160" r="5" fill="#52b788"/>
+          <circle cx="160" cy="250" r="5" fill="#52b788"/>
+          <circle cx="70" cy="160" r="5" fill="#52b788"/>
+          <circle cx="113" cy="113" r="4" fill="#52b788" opacity="0.6"/>
+          <circle cx="207" cy="207" r="4" fill="#52b788" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="portada-imagen-overlay">
+        <p class="portada-nota-cover">
+          "Más allá de los almacenes: Cómo la cadena de suministro puede salvar a nuestra comunidad y dejar de contribuir a la saturación del basurero municipal."
+        </p>
+      </div>
+    </div>
+    <div class="portada-strip">
+      <span class="portada-strip-texto">Crisis de Residuos</span>
+      <div class="portada-strip-dot"></div>
+      <span class="portada-strip-texto">Logística Inversa</span>
+      <div class="portada-strip-dot"></div>
+      <span class="portada-strip-texto">Economía Circular</span>
+      <div class="portada-strip-dot"></div>
+      <span class="portada-strip-texto">Propuesta Escolar PDI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 2 — EDITORIAL
+═══════════════════════════════════════ -->
+<section id="editorial" class="page">
+  <div class="editorial-inner">
+    <p class="seccion-label">Editorial &amp; Introducción Crítica</p>
+    <h2 class="editorial-titulo">La Ruta Oculta del Consumo en Tuxtepec</h2>
+    <p class="editorial-subtitulo">Por Lezama Rendón José Valentín · Especialidad: Técnico en Logística</p>
+
+    <p class="editorial-texto drop-cap fade-up">
+      San Juan Bautista Tuxtepec es el corazón comercial de la Cuenca del Papaloapan.
+      Diariamente, cientos de camiones entran a nuestra ciudad repletos de mercancías
+      para abastecer los comercios del centro, los mercados y las grandes cadenas.
+      Sin embargo, esta intensa actividad económica tiene una cara oculta y preocupante:
+      la generación masiva de residuos de embalaje —cartón, plásticos de playo y tarimas—
+      que colapsan nuestro sistema de recolección.
+    </p>
+
+    <div class="pull-quote fade-up">
+      <p>"Esta problemática no es solo un asunto de limpieza urbana; es una crisis ambiental
+      y social situada en nuestro entorno, en las calles que recorremos todos los días."</p>
+    </div>
+
+    <p class="editorial-texto fade-up">
+      Cuando caminamos por las avenidas Independencia o Cinco de Mayo, es común ver montones
+      de cajas y plásticos acumulados en las esquinas. En temporada de lluvias, estos materiales
+      son arrastrados por el agua, tapando las alcantarillas y provocando inundaciones que afectan
+      directamente a las familias tuxtepecanas. El actual modelo de consumo de "comprar, usar y tirar"
+      ha rebasado por completo la capacidad del basurero municipal, evidenciando que necesitamos
+      cambiar la forma en que gestionamos las mercancías.
+    </p>
+
+    <p class="editorial-texto fade-up">
+      Este artículo parte de una premisa fundamental: los estudiantes de Logística no somos
+      espectadores pasivos de estos problemas. Somos los futuros profesionistas capaces de
+      rediseñar los flujos que producen el caos que observamos. Entender la logística desde
+      una perspectiva crítica y situada —aquí, en Tuxtepec, en nuestro mercado, en nuestro
+      río Papaloapan— es el primer paso para convertirnos en agentes de cambio real.
+      Las <span class="termino-clave">Progresiones 11 y 12</span> de nuestra carrera técnica
+      no son contenidos abstractos: son herramientas concretas para analizar y transformar
+      la realidad que nos rodea.
+    </p>
+
+    <p class="editorial-texto fade-up">
+      En las páginas siguientes encontrarás un análisis técnico del problema desde nuestra
+      especialidad, testimonios de quienes lo viven en primera persona, una infografía
+      comparativa y, sobre todo, una propuesta de solución concreta que podemos comenzar a
+      implementar desde nuestra escuela.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 3 — ANÁLISIS
+═══════════════════════════════════════ -->
+<section id="analisis" class="page">
+  <div class="analisis-inner">
+
+    <div>
+      <p class="analisis-label">Análisis desde la Especialidad · Logística</p>
+      <h2 class="analisis-titulo">Logística Inversa: el eslabón perdido de la sustentabilidad</h2>
+      <p class="analisis-subtitulo">Cómo la cadena de suministro se convierte en un problema ambiental —y cómo puede ser parte de la solución.</p>
+
+      <div class="concepto-box fade-up">
+        <h4>Concepto Clave: Logística Directa vs. Logística Inversa</h4>
+        <p>
+          Tradicionalmente, la logística se encarga de que un producto llegue al cliente
+          rápido y al menor costo (Logística Directa). Para responder a las necesidades
+          ambientales actuales —y como lo exigen las Progresiones 11 y 12— debemos dominar
+          la <strong>Logística Inversa</strong>: el proceso de planificar e implementar el
+          flujo de materiales desde el punto de consumo hasta el punto de origen para
+          recuperar su valor o asegurar su correcta eliminación (Hernández, 2022).
+        </p>
+      </div>
+
+      <p class="analisis-texto fade-up">
+        En Tuxtepec, los comercios locales cometen un error logístico crítico: desechan
+        sus empaques mezclándolos con la basura orgánica. Al hacer esto, el cartón y el
+        plástico pierden su valor de reciclaje al contaminarse con humedad y residuos
+        alimenticios. Desde la perspectiva de la <span class="termino-clave">Gestión de
+        Almacén</span>, esto representa una pérdida de recursos recuperables que podrían
+        reincorporarse al sistema productivo.
+      </p>
+
+      <p class="analisis-texto fade-up">
+        Existe además el problema de los <span class="termino-clave">fletes vacíos</span>.
+        Muchos camiones de proveedores locales descargan sus productos en Tuxtepec y regresan
+        a sus bases —como Veracruz o Oaxaca— completamente vacíos. Desde un análisis crítico,
+        esto representa una enorme ineficiencia: se consume combustible y se generan emisiones
+        de CO₂ innecesarias. Si aplicáramos una logística verde coordinada, esos camiones
+        podrían regresar cargados con materiales reciclables compactados de Tuxtepec para
+        entregarlos a industrias procesadoras, cerrando el ciclo de una economía circular.
+      </p>
+
+      <p class="analisis-texto fade-up">
+        El rediseño de rutas —otra herramienta central de nuestra especialidad— puede reducir
+        hasta en un 35% las emisiones de transporte en una zona comercial como el centro de
+        Tuxtepec. La implementación de software de optimización de rutas (como los que
+        estudiaremos en Progresión 12) permitiría que las recolectoras de reciclaje visiten
+        los puntos de acopio solo cuando estos alcancen su capacidad máxima, eliminando
+        viajes innecesarios y maximizando la carga útil de cada trayecto (SEMARNAT, 2021).
+      </p>
+    </div>
+
+    <div>
+      <div class="stat-card fade-up">
+        <div class="stat-numero">35<span style="font-size:1.5rem">%</span></div>
+        <div class="stat-label">Reducción de emisiones CO₂ con optimización de rutas de recolección comercial</div>
+      </div>
+
+      <div class="stat-card fade-up" style="background:var(--verde-medio); margin-top: 1.2rem;">
+        <div class="stat-numero" style="color:var(--crema)">60<span style="font-size:1.5rem">%</span></div>
+        <div class="stat-label" style="color:var(--verde-menta)">De los residuos generados en mercados de Tuxtepec son recuperables con separación en origen</div>
+      </div>
+
+      <div class="stat-card fade-up" style="background:rgba(82,183,136,0.12); border: 1px solid rgba(82,183,136,0.3); margin-top: 1.2rem;">
+        <div class="stat-numero" style="color:var(--verde-claro)">15–20</div>
+        <div class="stat-label" style="color:var(--crema)">Cajas de cartón por semana genera un comercio típico del centro (promedio estimado)</div>
+      </div>
+
+      <div style="margin-top:1.5rem; padding:1.5rem; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.25); border-radius:12px;" class="fade-up">
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--acento-oro); margin-bottom:0.7rem;">Vinculación Curricular</p>
+        <p style="font-size:0.83rem; color:rgba(245,240,232,0.7); line-height:1.6;">
+          Este análisis aplica directamente los contenidos de las
+          <strong style="color:var(--crema)">Progresiones 11 y 12</strong>:
+          cadena de suministro sustentable, gestión de almacén con criterios ambientales
+          y optimización de rutas de distribución inversa.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 4 — VOCES
+═══════════════════════════════════════ -->
+<section id="voces" class="page">
+  <div class="voces-inner">
+    <p class="seccion-label" style="color:var(--verde-medio)">Voces de Nuestra Comunidad</p>
+    <h2 class="editorial-titulo">El Problema en Palabras de Quienes lo Viven</h2>
+    <p class="editorial-subtitulo">Testimonios directos de actores locales sobre la gestión de residuos en Tuxtepec.</p>
+
+    <div class="voces-grid">
+
+      <div class="testimonio-card fade-up">
+        <div class="testimonio-header">
+          <div class="testimonio-avatar">R</div>
+          <div class="testimonio-info">
+            <h3>Don Ramiro</h3>
+            <span>Comerciante · Zona Centro, Mercado Central · 15+ años de experiencia</span>
+          </div>
+        </div>
+        <div class="testimonio-body">
+          <p class="testimonio-pregunta">¿Cuánto material de empaque desecha habitualmente?</p>
+          <p class="testimonio-respuesta">
+            "Aquí a la semana sacamos fácil unas 15 o 20 cajas grandes de cartón
+            y muchísimo plástico donde vienen envueltas las rejas de fruta.
+            Todo eso ocupa mucho espacio en el local."
+          </p>
+
+          <p class="testimonio-pregunta">¿Qué pasa con ese material al terminar la jornada?</p>
+          <p class="testimonio-respuesta">
+            "Lo sacamos a la banqueta para que se lo lleve el camión de la basura,
+            pero a veces pasa tarde y los perros o el viento lo riegan. Si hubiera
+            un sistema ordenado donde pasaran exclusivamente por el cartón limpio,
+            para nosotros sería mucho más fácil cooperar."
+          </p>
+
+          <p style="margin-top:1.2rem; font-size:0.78rem; color:#999; font-style:italic;">
+            Entrevista realizada en la zona centro de Tuxtepec, mayo de 2026.
+            Nombre usado con autorización del entrevistado.
+          </p>
+        </div>
+      </div>
+
+      <div class="multimedia-card fade-up">
+        <p style="font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--verde-claro); margin-bottom:0.5rem;">Sección Multimedia</p>
+        <h3>Recursos Interactivos</h3>
+        <p style="font-size:0.83rem; color:rgba(245,240,232,0.55); margin-bottom:0.5rem; line-height:1.5;">
+          Accede a los materiales complementarios de este artículo para profundizar en el análisis de la problemática en Tuxtepec.
+        </p>
+
+        <div class="multimedia-item">
+          <div class="multimedia-icono">🎧</div>
+          <div class="multimedia-info">
+            <h4>Podcast: Gestión de Residuos Comerciales en Tuxtepec</h4>
+            <p>Entrevista completa con Don Ramiro y análisis adicional · ~12 min</p>
+          </div>
+          <span class="multimedia-badge">Audio</span>
+        </div>
+
+        <div class="multimedia-item">
+          <div class="multimedia-icono">🗺️</div>
+          <div class="multimedia-info">
+            <h4>Mapa Interactivo: Puntos de Acumulación de Residuos</h4>
+            <p>Centro histórico de Tuxtepec — Google My Maps</p>
+          </div>
+          <span class="multimedia-badge">Mapa</span>
+        </div>
+
+        <div class="multimedia-item">
+          <div class="multimedia-icono">📹</div>
+          <div class="multimedia-info">
+            <h4>Video: Recorrido por las Rutas de Recolección Actuales</h4>
+            <p>Documentación en campo · Avenida Independencia y 5 de Mayo</p>
+          </div>
+          <span class="multimedia-badge">Video</span>
+        </div>
+
+        <div style="margin-top:0.5rem; padding:1rem; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px;">
+          <p style="font-size:0.78rem; color:rgba(245,240,232,0.6); line-height:1.5; font-style:italic;">
+            💡 En la versión digital final (Canva/Issuu), selecciona cada elemento multimedia y agrega los enlaces directos a tus archivos de audio, mapa y video.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 5 — INFOGRAFÍA
+═══════════════════════════════════════ -->
+<section id="infografia" class="page">
+  <div class="infografia-bg"></div>
+  <div class="infografia-inner">
+    <p style="font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--verde-claro); text-align:center; margin-bottom:0.8rem;">Infografía Original</p>
+    <h2 class="infografia-titulo">Logística Lineal vs. Logística Inversa</h2>
+    <p class="infografia-sub">Dos modelos, dos destinos para los residuos de Tuxtepec</p>
+
+    <div class="comparativa fade-up">
+
+      <!-- LINEAL -->
+      <div class="comparativa-col">
+        <div class="comparativa-header lineal">
+          <h3>⚠️ Modelo Tradicional (Lineal)</h3>
+        </div>
+        <div class="comparativa-steps lineal-bg">
+          <div class="step-item">
+            <div class="step-num lineal">1</div>
+            <span class="step-texto">Extracción de recursos naturales (petróleo, celulosa)</span>
+            <span class="step-icono">⛏️</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num lineal">2</div>
+            <span class="step-texto">Producción en masa de empaques desechables</span>
+            <span class="step-icono">🏭</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num lineal">3</div>
+            <span class="step-texto">Distribución a comercios de Tuxtepec</span>
+            <span class="step-icono">🚛</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num lineal">4</div>
+            <span class="step-texto">Consumo rápido · empaque desechado sin separar</span>
+            <span class="step-icono">🛒</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num lineal">5</div>
+            <span class="step-texto"><strong style="color:#e07a5f">Basurero municipal saturado</strong> · drenajes tapados · inundaciones</span>
+            <span class="step-icono">🗑️</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num lineal">6</div>
+            <span class="step-texto"><strong style="color:#e07a5f">Camiones de retorno vacíos</strong> · emisiones innecesarias de CO₂</span>
+            <span class="step-icono">💨</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIVISOR -->
+      <div class="vs-divider fade-up">
+        <div class="vs-linea"></div>
+        <div class="vs-badge">VS</div>
+        <div class="vs-linea"></div>
+      </div>
+
+      <!-- INVERSA -->
+      <div class="comparativa-col">
+        <div class="comparativa-header inversa">
+          <h3>✅ Modelo Inverso (Circular)</h3>
+        </div>
+        <div class="comparativa-steps inversa-bg">
+          <div class="step-item">
+            <div class="step-num inversa">1</div>
+            <span class="step-texto">Consumo responsable · separación en origen por el comerciante</span>
+            <span class="step-icono">♻️</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num inversa">2</div>
+            <span class="step-texto">Recolección selectiva en tiendas y mercados (zona A/B/C)</span>
+            <span class="step-icono">📦</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num inversa">3</div>
+            <span class="step-texto">Centro de Acopio y Clasificación (PDI Escolar o municipal)</span>
+            <span class="step-icono">🏫</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num inversa">4</div>
+            <span class="step-texto"><strong style="color:#52b788">Transporte de retorno eficiente</strong> · camiones cargados con material compactado</span>
+            <span class="step-icono">🚚</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num inversa">5</div>
+            <span class="step-texto">Entrega a industrias procesadoras · reincorporación al ciclo industrial</span>
+            <span class="step-icono">🏗️</span>
+          </div>
+          <div class="step-item">
+            <div class="step-num inversa">6</div>
+            <span class="step-texto"><strong style="color:#52b788">Nuevos empaques producidos</strong> · ciclo cerrado · menos extracción</span>
+            <span class="step-icono">🌱</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ESTADÍSTICAS -->
+    <div class="stats-row">
+      <div class="stat-item fade-up">
+        <div class="numero">35<span class="unidad">%</span></div>
+        <div class="descripcion">Reducción de emisiones de CO₂ por transporte al optimizar rutas de recolección comercial (SEMARNAT, 2021)</div>
+      </div>
+      <div class="stat-item fade-up" style="transition-delay:0.1s;">
+        <div class="numero">60<span class="unidad">%</span></div>
+        <div class="descripcion">De los residuos generados en mercados de ciudades intermedias son recuperables con separación en origen</div>
+      </div>
+      <div class="stat-item fade-up" style="transition-delay:0.2s;">
+        <div class="numero">3<span class="unidad">x</span></div>
+        <div class="descripcion">Más eficiente es la ruta de recolección selectiva frente a la recolección mezclada con residuos orgánicos</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 6 — PROPUESTA
+═══════════════════════════════════════ -->
+<section id="propuesta" class="page">
+  <div class="propuesta-inner">
+
+    <div>
+      <p class="seccion-label" style="color:var(--verde-medio)">Propuesta de Acción Concreta</p>
+      <h2 class="propuesta-titulo">Punto de Distribución Inversa Escolar (PDI)</h2>
+      <span class="propuesta-badge">Proyecto Aplicable · Bajo Costo · Impacto Real</span>
+
+      <p class="propuesta-intro">
+        Como estudiantes de Logística, proponemos implementar en nuestro plantel el proyecto
+        <strong>PDI (Punto de Distribución Inversa)</strong>, una solución concreta basada
+        en los principios de nuestra carrera técnica. Este proyecto no requiere inversión
+        elevada: necesita conocimiento, organización y voluntad de cambiar nuestros hábitos.
+      </p>
+
+      <div class="accion-item fade-up">
+        <div class="accion-num-wrap">
+          <div class="accion-num">1</div>
+        </div>
+        <div class="accion-contenido">
+          <h4>Layout de Clasificación por Zonas</h4>
+          <p>
+            Diseñar un área específica en la escuela dividida en zonas logísticas claras:
+            <strong>Zona A</strong> (Aluminio y metales), <strong>Zona B</strong> (PET y plásticos)
+            y <strong>Zona C</strong> (Papel, cartón y archivo muerto). Cada zona contará con
+            señalética profesional diseñada por los propios estudiantes, aplicando los conceptos
+            de diseño de almacén de Progresión 11.
+          </p>
+        </div>
+      </div>
+
+      <div class="accion-item fade-up">
+        <div class="accion-num-wrap">
+          <div class="accion-num">2</div>
+        </div>
+        <div class="accion-contenido">
+          <h4>Control de Inventario Escolar</h4>
+          <p>
+            Alumnos de la especialidad llevarán el registro del "stock" de residuos
+            mediante hojas de control estandarizadas, pesando el material semanalmente
+            para conocer el volumen generado. Estos datos alimentarán una base de
+            información que permita proyectar el crecimiento del programa y demostrar
+            su impacto con evidencias reales.
+          </p>
+        </div>
+      </div>
+
+      <div class="accion-item fade-up">
+        <div class="accion-num-wrap">
+          <div class="accion-num">3</div>
+        </div>
+        <div class="accion-contenido">
+          <h4>Alianza de Suministro Inverso con Recicladoras Locales</h4>
+          <p>
+            Se coordinarán entregas mensuales con recicladoras locales de Tuxtepec,
+            asegurando que el camión recolector optimice su ruta al pasar por nuestro
+            plantel <em>solo cuando se alcance la capacidad máxima de carga</em>,
+            reduciendo la huella de carbono del transporte. Los fondos recaudados
+            se destinarán a reforestar áreas verdes de la escuela.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem; padding:1.5rem; background:rgba(45,106,79,0.08); border:1px solid rgba(45,106,79,0.2); border-radius:12px;" class="fade-up">
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--verde-medio); margin-bottom:0.6rem;">Impacto Esperado (Año 1)</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div style="text-align:center;">
+            <span style="font-family:'Playfair Display',serif; font-weight:700; font-size:2rem; color:var(--verde-medio);">~800</span>
+            <p style="font-size:0.78rem; color:var(--gris-texto);">kg de material reciclable recuperados en el primer año</p>
+          </div>
+          <div style="text-align:center;">
+            <span style="font-family:'Playfair Display',serif; font-weight:700; font-size:2rem; color:var(--verde-medio);">$2,400</span>
+            <p style="font-size:0.78rem; color:var(--gris-texto);">pesos estimados para reforestar áreas verdes del plantel</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR RÚBRICA -->
+    <div>
+      <div class="sidebar-card fade-up">
+        <div class="sidebar-card-header">
+          <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--verde-oscuro); margin-bottom:0.3rem;">Criterios de Evaluación</p>
+          <h3>Rúbrica del Proyecto</h3>
+        </div>
+        <div class="sidebar-card-body">
+          <div class="rubrica-item">
+            <div class="rubrica-check">✓</div>
+            <div class="rubrica-texto">
+              <strong>Análisis Conceptual (Prog. 11 y 12)</strong>
+              Logística inversa, economía circular y optimización de rutas aplicadas al contexto de Tuxtepec.
+            </div>
+          </div>
+          <div class="rubrica-item">
+            <div class="rubrica-check">✓</div>
+            <div class="rubrica-texto">
+              <strong>Vinculación con la Comunidad</strong>
+              Testimonio real de actor local, mapa de puntos críticos y datos cuantitativos situados.
+            </div>
+          </div>
+          <div class="rubrica-item">
+            <div class="rubrica-check">✓</div>
+            <div class="rubrica-texto">
+              <strong>Propuesta de Solución</strong>
+              Proyecto PDI con pasos concretos, costos estimados y métricas de impacto.
+            </div>
+          </div>
+          <div class="rubrica-item">
+            <div class="rubrica-check">✓</div>
+            <div class="rubrica-texto">
+              <strong>Diseño y Herramientas Digitales</strong>
+              Revista estructurada, infografía comparativa, sección multimedia y citas APA.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem; padding:1.5rem; background:rgba(45,106,79,0.06); border:1px solid rgba(45,106,79,0.15); border-radius:12px;" class="fade-up">
+        <p style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--verde-medio); margin-bottom:0.8rem;">Objetivo del Proyecto</p>
+        <p style="font-size:0.85rem; line-height:1.65; color:var(--gris-texto);">
+          Este proyecto busca que nos reconozcamos como <strong>sujetos activos</strong>
+          capaces de proponer cambios reales en nuestro entorno, superando la visión
+          tradicional del examen escrito. La logística no es solo teoría: es una
+          herramienta de transformación social.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PÁGINA 7 — REFERENCIAS
+═══════════════════════════════════════ -->
+<section id="referencias" class="page">
+  <div class="referencias-inner">
+    <p style="font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--verde-claro); margin-bottom:0.8rem;">Formato APA 7ª Edición</p>
+    <h2 class="ref-titulo">Referencias Bibliográficas</h2>
+
+    <div class="ref-item fade-up">
+      <span class="ref-num">[1]</span>
+      <p class="ref-texto">
+        Hernández, R. (2022). <em>Logística verde y gestión de la cadena de suministro
+        sustentable</em>. Editorial Progreso.
+      </p>
+    </div>
+
+    <div class="ref-item fade-up">
+      <span class="ref-num">[2]</span>
+      <p class="ref-texto">
+        Instituto Nacional de Estadística y Geografía [INEGI]. (2020).
+        <em>Censo de Población y Vivienda: San Juan Bautista Tuxtepec, Oaxaca</em>.
+        <a href="https://www.inegi.org.mx" class="ref-url" target="_blank">https://www.inegi.org.mx</a>
+      </p>
+    </div>
+
+    <div class="ref-item fade-up">
+      <span class="ref-num">[3]</span>
+      <p class="ref-texto">
+        Secretaría de Medio Ambiente y Recursos Naturales [SEMARNAT]. (2021).
+        <em>Diagnóstico básico para la gestión integral de residuos</em>.
+        Gobierno de México.
+        <a href="https://www.gob.mx/semarnat" class="ref-url" target="_blank">https://www.gob.mx/semarnat</a>
+      </p>
+    </div>
+
+    <div class="ref-item fade-up">
+      <span class="ref-num">[4]</span>
+      <p class="ref-texto">
+        Ramiro [apellido omitido por privacidad]. (2026, mayo).
+        <em>Entrevista personal sobre gestión de residuos comerciales en Tuxtepec</em>.
+        [Entrevista]. Zona Centro, San Juan Bautista Tuxtepec, Oaxaca.
+      </p>
+    </div>
+
+    <div class="ref-item fade-up">
+      <span class="ref-num">[5]</span>
+      <p class="ref-texto">
+        Secretaría de Educación Pública [SEP]. (2023).
+        <em>Libro de texto: Progresiones 11 y 12 — Cadena de Suministro y Logística Inversa</em>.
+        Dirección General de Educación Tecnológica Industrial y de Servicios.
+      </p>
+    </div>
+
+    <div class="pie-firma fade-up">
+      <p>
+        Este artículo fue elaborado como parte de la evaluación de las
+        Progresiones 11 y 12 de la especialidad Técnico en Logística,
+        en el marco del proyecto "Revista Digital: Eco-Logística Tuxtepec".
+        <strong>Lezama Rendón José Valentín · Junio 2026 · San Juan Bautista Tuxtepec, Oaxaca</strong>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ── Barra de progreso ──
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    bar.style.width = scrolled + '%';
+  });
+
+  // ── Observer para animaciones ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.page, .fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
